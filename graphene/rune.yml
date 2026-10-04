@@ -1,0 +1,73 @@
+# Generated with runic (docs/DECISIONS.md). Adapted from odin-gtk (MIT, docs/LICENSE-odin-gtk.md).
+version: 0
+platforms:
+  - Linux x86_64
+from:
+  language: c
+  shared.linux: 'libgraphene-1.0.so'
+  headers: ../build/sys/usr/include/graphene-1.0/graphene-gobject.h
+  includedirs:
+    - ../stdinc/
+    - ../build/sys/usr/include/glib-2.0/
+    - ../build/sys/usr/lib/x86_64-linux-gnu/glib-2.0/include/
+    - ../build/sys/usr/include/graphene-1.0/
+    - ../build/sys/usr/lib/x86_64-linux-gnu/graphene-1.0/include/
+  load_all_includes: true
+  extern:
+    - "../stdinc/*"
+    - "../stdinc/sys/*"
+    - "../build/sys/usr/include/glib-2.0/glib.h"
+    - "../build/sys/usr/include/glib-2.0/glib-object.h"
+    - "../build/sys/usr/include/glib-2.0/glib/*"
+    - "../build/sys/usr/include/glib-2.0/glib/deprecated/*"
+    - "../build/sys/usr/include/glib-2.0/gobject/*"
+    - "../build/sys/usr/lib/x86_64-linux-gnu/glib-2.0/include/*"
+  ignore:
+    constants:
+      - 'GRAPHENE_HAS_*'
+      # GRAPHENE_MAJOR/MINOR/MICRO_VERSION stay: the version test reads them.
+      - 'GRAPHENE_VERSION_*'
+      - 'GRAPHENE_VERSION'
+      - '*GRAPHENE_DEPRECATED*'
+      - 'GRAPHENE_AVAILABLE*'
+      - '_GRAPHENE*'
+      - 'GRAPHENE_ALIGN16'
+      - '*_INIT_ZERO'
+      - 'GRAPHENE_SIMD_S'
+    types:
+      - 'graphene_simd4f_union_t'
+      - 'graphene_simd4f_uif_t'
+      - '*autoptr*'
+    functions:
+      - '*autoptr*'
+      - '*auto_cleanup*'
+  overwrite:
+    types:
+      'graphene_simd4f_t': '#Struct x #Float32 y #Float32 z #Float32 w #Float32'
+to:
+  language: odin
+  package: graphene
+  out: graphene.odin
+  no_build_tag: true
+  trim_prefix:
+    - 'GRAPHENE_'
+    - 'graphene_'
+    - 'EULER_ORDER_'
+    - 'RAY_INTERSECTION_KIND_'
+  extern:
+    sources:
+      "../stdinc/stdarg.h": "core:c/libc"
+      "../build/sys/usr/include/glib-2.0/glib.h": "glib glib:glib"
+      "../build/sys/usr/include/glib-2.0/glib-object.h": "gobj glib:gobject"
+      "../build/sys/usr/include/glib-2.0/glib/*": "glib glib:glib"
+      "../build/sys/usr/include/glib-2.0/glib/deprecated/*": "glib glib:glib"
+      "../build/sys/usr/include/glib-2.0/gobject/*": "gobj glib:gobject"
+      "../build/sys/usr/lib/x86_64-linux-gnu/glib-2.0/include/*": "glib glib:glib"
+    trim_prefix: true
+  detect:
+    parameters: declared
+    arrays:
+      sphere_init_from_points: [points]
+      sphere_init_from_vectors: [vectors]
+      box_init_from_points: [points]
+      box_init_from_vectors: [vectors]
