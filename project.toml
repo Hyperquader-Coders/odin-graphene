@@ -1,0 +1,34 @@
+# What odin-graphene is and needs: build is what a program on it needs, test what only its own
+# tests and checks need. house-rules docs/PROJECT_TOML.md has the layout.
+[project]
+schema = "amber-project-1"
+name = "odin-graphene"
+license = "MIT"
+kind = "binding"
+summary = "Odin bindings for Graphene, generated with runic"
+tags = [
+  "ai-assisted",
+  "bindings",
+  "graphene",
+  "linux",
+  "odin",
+  "runic",
+]
+collection = "graphene"
+
+[siblings.AMBER_ROOT]
+odin-glib = "https://github.com/Hyperquader-Coders/odin-glib"
+
+[build]
+packages = [
+  "libgraphene-1.0-dev",
+]
+lib = [
+  "graphene",
+]
+
+[test]
+packages = [
+  "shellcheck",
+  "shfmt",
+]
